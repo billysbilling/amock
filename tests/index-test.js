@@ -31,7 +31,7 @@ test('reset resets', function() {
 });
 
 test('mock', function() {
-    var mock = amock.mock('GET', '/john');
+    var mock = amock('GET', '/john');
     ok(mock instanceof Mock);
     equal(mock.method, 'GET');
     equal(mock.url, '/john');

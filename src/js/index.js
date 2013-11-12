@@ -5,6 +5,12 @@ var $ = require('jquery'),
 
 var originalXhr = null;
 
+module.exports = function(method, url) {
+    var mock = new Mock(method, url);
+    container.add(mock);
+    return mock;
+};
+
 module.exports.install = function() {
     if (!originalXhr) {
         originalXhr = $.ajaxSettings.xhr;
@@ -22,9 +28,3 @@ module.exports.uninstall = function() {
 };
 
 module.exports.reset = container.reset;
-
-module.exports.mock = function(method, url) {
-    var mock = new Mock(method, url);
-    container.add(mock);
-    return mock;
-};

@@ -40,7 +40,7 @@ test('abort', function() {
 });
 
 test('send when url is not found throws', function() {
-    amock.mock('GET', '/john');
+    amock('GET', '/john');
     r.open('GET', '/jane');
     throws(function() {
         r.send();
@@ -48,7 +48,7 @@ test('send when url is not found throws', function() {
 });
 
 test('send when url is not found throws', function() {
-    amock.mock('GET', '/john');
+    amock('GET', '/john');
     r.open('POST', '/john');
     throws(function() {
         r.send();
@@ -57,7 +57,7 @@ test('send when url is not found throws', function() {
 
 test('send works when url is string', function() {
     expect(0);
-    var mock = amock.mock('GET', '/john');
+    var mock = amock('GET', '/john');
     r.open('GET', '/john');
     r.send();
     mock.done();
@@ -65,28 +65,28 @@ test('send works when url is string', function() {
 
 test('send works when url is regex', function() {
     expect(0);
-    var mock = amock.mock('GET', /^\/johns\/\d+$/);
+    var mock = amock('GET', /^\/johns\/\d+$/);
     r.open('GET', '/johns/123');
     r.send();
     mock.done();
 });
 
 test('send increases count', function() {
-    var mock = amock.mock('GET', '/john');
+    var mock = amock('GET', '/john');
     r.open('GET', '/john');
     r.send();
     equal(mock.count, 1);
 });
 
 test('send removes mock', function() {
-    amock.mock('GET', '/john');
+    amock('GET', '/john');
     r.open('GET', '/john');
     r.send();
     equal(container.find(function() {return true;}), null);
 });
 
 test('send only removes mock when expectedCount has been reached', function() {
-    var mock = amock.mock('GET', '/john')
+    var mock = amock('GET', '/john')
         .expect(2);
 
     r.open('GET', '/john');
@@ -100,7 +100,7 @@ test('send only removes mock when expectedCount has been reached', function() {
 });
 
 test('send does not remove infinite mocks', function() {
-    var mock = amock.mock('GET', '/john')
+    var mock = amock('GET', '/john')
         .infinite();
 
     r.open('GET', '/john');
@@ -116,7 +116,7 @@ test('send does not remove infinite mocks', function() {
 test('send calls jsonCallback', function() {
     expect(1);
 
-    amock.mock('POST', '/john')
+    amock('POST', '/john')
         .json(function(json) {
             equal(json.name, 'John');
         });
@@ -128,7 +128,7 @@ test('send calls jsonCallback', function() {
 test('send responds async', function() {
     stop();
 
-    amock.mock('GET', '/john')
+    amock('GET', '/john')
         .reply(200, {name: 'John'}, {'X-Rate-Limit': '2000'});
 
     var onloadCalled = false,
@@ -164,7 +164,7 @@ test('send responds async', function() {
 test('getResponseHeader(s)', function() {
     stop();
 
-    amock.mock('GET', '/john')
+    amock('GET', '/john')
         .reply(200, {name: 'John'}, {'X-Rate-Limit': '2000'});
 
     r.open('GET', '/john');

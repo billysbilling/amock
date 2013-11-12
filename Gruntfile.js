@@ -1,7 +1,9 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         'billy-builder': {
-            title: 'amock'
+            title: 'amock',
+            
+            jshint: true
         }
     });
 

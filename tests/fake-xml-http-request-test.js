@@ -3,7 +3,8 @@ var amock = require('../src/js/index'),
     FakeXMLHttpRequest = require('../src/js/fake-xml-http-request');
 
 var a = {a: true},
-    r;
+    r,
+    onErrorFnPrev = window.onerror;
 
 QUnit.module('fake-xml-http-request', {
     setup: function() {
@@ -12,6 +13,7 @@ QUnit.module('fake-xml-http-request', {
 
     teardown: function() {
         container.clear();
+        window.onerror = onErrorFnPrev;
     }
 });
 
@@ -40,19 +42,17 @@ test('abort', function() {
 });
 
 test('send when url is not found throws', function() {
+    stop();
+    
     amock('GET', '/john');
     r.open('GET', '/jane');
-    throws(function() {
-        r.send();
-    }, /GET \/jane was not found in mock requests/);
-});
-
-test('send when url is not found throws', function() {
-    amock('GET', '/john');
-    r.open('POST', '/john');
-    throws(function() {
-        r.send();
-    }, /POST \/john was not found in mock requests/);
+    r.send();
+    
+    window.onerror = function (error) {
+        equal(error, 'Uncaught Error: GET /jane was not found in mock requests.');
+        start();
+        return true;
+    };
 });
 
 test('send works when url is string', function() {

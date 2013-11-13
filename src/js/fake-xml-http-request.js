@@ -46,8 +46,11 @@ FakeXMLHttpRequest.prototype = {
             }
         });
         if (!mock) {
-            errorMessage = this.method + ' ' + this.url + ' was not found in mock requests.';
-            throw new Error(errorMessage);
+            setTimeout(function() {
+                errorMessage = self.method + ' ' + self.url + ' was not found in mock requests.';
+                throw new Error(errorMessage);
+            }, 0);
+            return;
         }
         mock.count++;
         if (!mock.isInfinite && mock.count >= mock.expectedCount) {

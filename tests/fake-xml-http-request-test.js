@@ -42,17 +42,22 @@ test('abort', function() {
 });
 
 test('send when url is not found throws', function() {
-    stop();
-    
-    amock('GET', '/john');
-    r.open('GET', '/jane');
-    r.send();
-    
-    window.onerror = function (error) {
-        equal(error, 'Uncaught Error: GET /jane was not found in mock requests.');
-        start();
-        return true;
-    };
+    //We had to disable this test as PhantomJS does not currently support window.onerror
+    if (window._phantom) {
+        expect(0);
+    } else {
+        stop();
+        
+        amock('GET', '/john');
+        r.open('GET', '/jane');
+        r.send();
+        
+        window.onerror = function (error) {
+            equal(error, 'Uncaught Error: GET /jane was not found in mock requests.');
+            start();
+            return true;
+        };
+    }
 });
 
 test('send works when url is string', function() {

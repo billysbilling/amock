@@ -37,14 +37,7 @@ FakeXMLHttpRequest.prototype = {
             errorMessage,
             jsonPayload;
         this.readyState = 2;
-        mock = container.find(function(m) {
-            if (m.method !== self.method) {
-                return false;
-            }
-            if ((typeof m.url === 'string' && m.url === self.url) || (m.url instanceof RegExp && m.url.test(self.url))) {
-                return true;
-            }
-        });
+        mock = container.findBy(this.method, this.url);
         if (!mock) {
             setTimeout(function() {
                 errorMessage = self.method + ' ' + self.url + ' was not found in mock requests.';

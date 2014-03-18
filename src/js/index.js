@@ -28,4 +28,6 @@ module.exports.uninstall = function() {
     container.clear();
 };
 
+module.exports.has = container.has;
+
 module.exports.reset = container.reset;

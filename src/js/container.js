@@ -1,10 +1,14 @@
+var matchUrl = require('./match-url');
+
 var mocks = [];
 
-module.exports.add = function(mock) {
+var container = module.exports = {};
+
+container.add = function(mock) {
     mocks.unshift(mock);
 };
 
-module.exports.remove = function(mock) {
+container.remove = function(mock) {
     for (var i = 0; i < mocks.length; i++) {
         if (mocks[i] === mock) {
             mocks.splice(i, 1);
@@ -13,7 +17,7 @@ module.exports.remove = function(mock) {
     }
 };
 
-module.exports.reset = function() {
+container.reset = function() {
     for (var i = 0; i < mocks.length; i++) {
         if (mocks[i].isPersistent) {
             //If persistent, then reset its count
@@ -26,11 +30,11 @@ module.exports.reset = function() {
     }
 };
 
-module.exports.clear = function() {
+container.clear = function() {
     mocks = [];
 };
 
-module.exports.find = function(callback) {
+container.find = function(callback) {
     var mock;
     for (var i = 0; i < mocks.length; i++) {
         mock = mocks[i];
@@ -39,4 +43,16 @@ module.exports.find = function(callback) {
         }
     }
     return null;
+};
+
+container.findBy = function(method, url) {
+    return container.find(function(m) {
+        if (method === m.method && matchUrl(m.url, url)) {
+            return true;
+        }
+    });
+};
+
+container.has = function(method, url) {
+    return container.findBy(method, url) !== null;
 };

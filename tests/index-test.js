@@ -4,7 +4,8 @@ var $ = require('jquery'),
     FakeXMLHttpRequest = require('../src/js/fake-xml-http-request'),
     Mock = require('../src/js/mock');
 
-var a = {a: true};
+var a = {a: true},
+    p = {isPersistent: true};
 
 QUnit.module('index', {
     teardown: function() {
@@ -22,6 +23,12 @@ test('uninstall', function() {
     amock.install();
     amock.uninstall();
     ok($.ajaxSettings.xhr() instanceof window.XMLHttpRequest);
+});
+
+test('uninstall clears the container', function() {
+    container.add(p);
+    amock.uninstall();
+    equal(container.find(function(m) { return true; }), null);
 });
 
 test('reset resets', function() {

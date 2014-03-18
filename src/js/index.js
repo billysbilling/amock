@@ -25,6 +25,7 @@ module.exports.uninstall = function() {
         $.ajaxSettings.xhr = originalXhr;
         originalXhr = null;
     }
+    container.clear();
 };
 
 module.exports.reset = container.reset;

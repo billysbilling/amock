@@ -1,4 +1,5 @@
-var container = require('./container');
+var container = require('./container'),
+    assert = require('./assert');
 
 var Mock = function(method, url) {
     this.method = method;
@@ -60,9 +61,7 @@ Mock.prototype = {
     },
 
     done: function() {
-        if (this.count !== this.expectedCount) {
-            throw new Error('Expected '+this.expectedCount+' requests to `'+this.method+' '+this.url+'`, but '+this.count+' was made.');
-        }
+        assert.ok(this.count === this.expectedCount, 'Expects '+this.expectedCount+' requests to `'+this.method+' '+this.url+'`. '+this.count+' was made.');
     },
 
     remove: function() {

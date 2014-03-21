@@ -1,5 +1,6 @@
 var container = require('../src/js/container'),
-    Mock = require('../src/js/mock');
+    Mock = require('../src/js/mock'),
+    assert = require('../src/js/assert');
 
 var mock = null;
 
@@ -10,6 +11,7 @@ QUnit.module('mock', {
     
     teardown: function() {
         container.clear();
+        assert.ok = ok;
     }
 });
 
@@ -58,16 +60,21 @@ test('persistent', function() {
 });
 
 test('done is silent when count matches expectedCount', function() {
-    expect(0);
+    assert.ok = function(passed, message) {
+        ok(passed, 'assertion should pass');
+        equal(message, 'Expects 4 requests to `GET \/john`. 4 was made.');
+    };
     mock.expect(4);
     mock.count = 4;
     mock.done();
 });
 
 test('done throws when count is different than expectedCount', function() {
-    throws(function() {
-        mock.done();
-    }, /Expected 1 requests to `GET \/john`, but 0 was made/);
+    assert.ok = function(passed, message) {
+        ok(!passed, 'assertion should fail');
+        equal(message, 'Expects 1 requests to `GET \/john`. 0 was made.');
+    };
+    mock.done();
 });
 
 test('remove removes it from the container', function() {

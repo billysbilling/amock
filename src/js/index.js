@@ -1,7 +1,8 @@
 var $ = require('jquery'),
     container = require('./container'),
     Mock = require('./mock'),
-    FakeXMLHttpRequest = require('./fake-xml-http-request');
+    FakeXMLHttpRequest = require('./fake-xml-http-request'),
+    assert = require('./assert');
 
 var originalXhr = null;
 
@@ -31,3 +32,5 @@ module.exports.uninstall = function() {
 module.exports.has = container.has;
 
 module.exports.reset = container.reset;
+
+module.exports.assert = assert;

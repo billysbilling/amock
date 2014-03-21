@@ -61,7 +61,6 @@ test('send when url is not found throws', function() {
 });
 
 test('send works when url is string', function() {
-    expect(0);
     var mock = amock('GET', '/john');
     r.open('GET', '/john');
     r.send();
@@ -69,7 +68,6 @@ test('send works when url is string', function() {
 });
 
 test('send works when url is regex', function() {
-    expect(0);
     var mock = amock('GET', /^\/johns\/\d+$/);
     r.open('GET', '/johns/123');
     r.send();

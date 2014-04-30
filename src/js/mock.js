@@ -30,6 +30,16 @@ Mock.prototype = {
         return this;
     },
 
+    /**
+     * Tells the mock what to reply requests with.
+     * 
+     * @param {Number} status The HTTP status code to reply with
+     * @param {String|Object|Function} body The body to reply with. Can either be a string, an object (which will be
+     *   JSON.stringify'ed), or a callback function. The callback function receives two parameters: The
+     *   `FakeXMLHttpRequest` instance, and the request body as a string.
+     * @param {Object} headers A dictionary of headers to reply with
+     * @returns {Mock}
+     */
     reply: function(status, body, headers) {
         headers = headers || {};
         if (typeof body === 'object') {

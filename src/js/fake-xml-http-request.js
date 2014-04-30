@@ -54,8 +54,19 @@ FakeXMLHttpRequest.prototype = {
             mock.jsonCallback(jsonPayload);
         }
         setTimeout(function() {
+            var responseText,
+                mockResponseBody = mock.responseBody;
+            if (typeof mockResponseBody === 'function') {
+                responseText = mockResponseBody(self, data);
+            } else {
+                responseText = mockResponseBody;
+            }
+            if (typeof responseText === 'object') {
+                responseText = JSON.stringify(responseText);
+            }
+
             self.status = mock.status;
-            self.responseText = mock.responseBody;
+            self.responseText = responseText;
             self.readyState = 4;
             self.responseHeaders = mock.responseHeaders;
             if (self.onload) {

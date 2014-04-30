@@ -164,6 +164,30 @@ test('send responds async', function() {
     }, 1);
 });
 
+test('send calls responseBody when it\'s a function', function() {
+    expect(3);
+    stop();
+
+    amock('POST', '/cars')
+        .reply(200, function(req, data) {
+            ok(req instanceof FakeXMLHttpRequest);
+            equal(data, '{"make":"Audi"}');
+            
+            return {
+                id: 123
+            };
+        });
+
+    r.open('POST', '/cars');
+    r.send('{"make":"Audi"}');
+
+    setTimeout(function() {
+        equal(r.responseText, '{"id":123}');
+
+        start();
+    }, 1);
+});
+
 test('getResponseHeader(s)', function() {
     stop();
 

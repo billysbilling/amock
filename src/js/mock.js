@@ -17,6 +17,8 @@ Mock.prototype = {
 
     isPersistent: false,
 
+    dataCallback: null,
+
     jsonCallback: null,
 
     status: null,
@@ -24,6 +26,11 @@ Mock.prototype = {
     responseBody: null,
     
     responseHeaders: null,
+
+    data: function(callback) {
+        this.dataCallback = callback;
+        return this;
+    },
 
     json: function(callback) {
         this.jsonCallback = callback;

@@ -128,6 +128,18 @@ test('send calls jsonCallback', function() {
     r.send('{"name":"John"}');
 });
 
+test('send calls dataCallback', function() {
+    expect(1);
+
+    amock('POST', '/john')
+        .data(function(payload) {
+            equal(payload, 'name=John&location=Middle+Earth');
+        });
+
+    r.open('POST', '/john');
+    r.send('name=John&location=Middle+Earth');
+});
+
 test('send responds async', function() {
     stop();
 

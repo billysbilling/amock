@@ -116,6 +116,19 @@ test('send does not remove infinite mocks', function() {
     equal(container.find(function() {return true;}), mock);
 });
 
+test('send calls beforeCallback', function() {
+    expect(2);
+
+    amock('POST', '/john')
+        .before(function(req) {
+            equal(req.method, 'POST');
+            equal(req.url, '/john');
+        });
+
+    r.open('POST', '/john');
+    r.send('{"name":"John"}');
+});
+
 test('send calls jsonCallback', function() {
     expect(1);
 

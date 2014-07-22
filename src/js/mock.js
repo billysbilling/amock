@@ -27,6 +27,11 @@ Mock.prototype = {
     
     responseHeaders: null,
 
+    before: function(callback) {
+        this.beforeCallback = callback;
+        return this;
+    },
+
     data: function(callback) {
         this.dataCallback = callback;
         return this;

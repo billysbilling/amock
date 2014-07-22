@@ -24,6 +24,12 @@ test('constructor', function() {
     equal(mock.isPersistent, false);
 });
 
+test('before', function() {
+    var fn = function() {};
+    strictEqual(mock.before(fn), mock);
+    equal(mock.beforeCallback, fn);
+});
+
 test('data', function() {
     var fn = function() {};
     strictEqual(mock.data(fn), mock);

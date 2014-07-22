@@ -49,6 +49,9 @@ FakeXMLHttpRequest.prototype = {
         if (!mock.isInfinite && mock.count >= mock.expectedCount) {
             mock.remove();
         }
+        if (mock.beforeCallback) {
+            mock.beforeCallback(this);
+        }
         if (mock.jsonCallback) {
             jsonPayload = JSON.parse(data);
             mock.jsonCallback(jsonPayload);
